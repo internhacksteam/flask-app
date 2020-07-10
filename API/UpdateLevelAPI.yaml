@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0-oas3"
+  title: Updating User Level
+  contact:
+    email: alvaradoblancouribe@gmail.com
+paths:
+  /updating-user:
+    post:
+      summary: Increases the number of the user level by one
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userID:
+                  type: integer
+      responses:
+        '200':
+          description: Updated Level for the user
+        '400':
+          description: The specified user ID is invalid (not a number).
+        '404':
+          description: A user with the specified ID was not found.
