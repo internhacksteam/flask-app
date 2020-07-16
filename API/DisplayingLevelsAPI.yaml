@@ -1,0 +1,29 @@
+
+openapi: 3.0.0
+info:
+  description: Displays the levels
+  version: "1.0.1"
+  title: Displaying Levels
+paths:
+  /users/{world}:
+    get:
+      summary: Gets the level in a world.
+      operationId: getLevelsById
+      parameters:
+        - name: world
+          in: path
+          description: the world the user is in
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+             application/json:
+              schema:
+                  properties:
+                    levels:
+                      type: array
+                      items:
+                        type: string
