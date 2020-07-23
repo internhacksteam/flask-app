@@ -55,6 +55,27 @@ def display_levels():
 
   return jsonify(levels)
 
+#Displaying achievements (in World 1 for version 1)
+@app.route('/api/displayAchievements', methods=['GET'])
+def display_achievments():
+  if not request.json:
+    abort(400)
+  #get service resource 
+  dynamodb = boto3.resource('dynamodb')
+  #instance of table without creating it 
+  table = dynamodb.Table('Achievements')
+
+  json_data = request.get_json()
+  level= json_data['Level']
+
+  response = table.get_item(
+    Key={
+      'AchievementID': level
+    })
+  achievements = str(response['Item']['Text'])
+
+  return jsonify(achievements)
+
 @app.route('/api/evaluatingAnswer', methods=['POST'])
 def evaluatingAnswer():
     if request.method == 'POST':
