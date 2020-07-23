@@ -39,12 +39,9 @@ def update_user():
 
   return jsonify({'level':int(level), 'updatedLevel':int(updatedLevel)})
 
-#Displaying levels 
+#Displaying levels (in World 1 for version 1)
 @app.route('/api/displayLevels', methods=['GET'])
 def display_levels():
-  if not request.json:
-    abort(400)
-
   #get service resource 
   dynamodb = boto3.resource('dynamodb')
   #instance of table without creating it 
@@ -54,8 +51,9 @@ def display_levels():
     Key={
       'WorldID': 1
     })
+  levels = str(response['Item']['Levels'])
 
-  return jsonify(response)
+  return jsonify(levels)
 
 @app.route('/api/evaluatingAnswer', methods=['POST'])
 def evaluatingAnswer():
