@@ -39,6 +39,43 @@ def update_user():
 
   return jsonify({'level':int(level), 'updatedLevel':int(updatedLevel)})
 
+#Displaying levels 
+@app.route('/api/displayLevels', methods=['GET'])
+def display_levels():
+  if not request.json:
+    abort(400)
+
+  #get service resource 
+  dynamodb = boto3.resource('dynamodb')
+  #instance of table without creating it 
+  table = dynamodb.Table('Worlds')
+
+  response = table.get_item(
+    Key={
+      'WorldID': 1
+    })
+
+  return jsonify(response)
+
+@app.route('/api/evaluatingAnswer', methods=['POST'])
+def evaluatingAnswer():
+    if request.method == 'POST':
+        json_data = request.get_json()
+        answer= json_data['Answer']
+
+
+        q1answers = {
+            'print("Hello World!")',
+            'print("Hello world!")',
+            'print("hello world!")',
+            'print("hello World!")'
+        }
+
+        if answer in q1answers:
+            return {'response': "Correct!"}
+        else:
+            return {'response': "Sorry, try again!"}
+
 @app.route('/')
 def home():
     return "hello there! This is working"
