@@ -17,9 +17,16 @@ def test_app():
 	response3 = app.test_client().get(
 		'/api/displayLevels')
 
+	response4 = app.test_client().get(
+		'/api/displayAchievements',
+		data = json.dumps({'Level': 1}),
+		content_type='application/json',
+		)
+
 	data = json.loads(response.get_data(as_text=True))
 	data2 = json.loads(response2.data)
 	data3 = json.loads(response3.data)
+	data4 = json.loads(response4.data)
 
 
 	assert response.status_code == 200
@@ -29,4 +36,6 @@ def test_app():
 	assert data2['response'] == 'Correct!'
 
 	assert response3.status_code == 200
+
+	assert response4.status_code == 200
 
